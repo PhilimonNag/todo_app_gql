@@ -4,7 +4,8 @@
   "description": "todo backend",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "dev":"nodemon index.js",
+    "start": "node index.js"
   },
   "author": "Philimon Nag",
   "license": "ISC",
