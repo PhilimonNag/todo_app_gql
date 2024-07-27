@@ -3,13 +3,15 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:todo_app/graphql/mutations.dart';
 
 class TaskDialog extends StatefulWidget {
+  const TaskDialog({
+    super.key,
+    this.task,
+    this.refetch,
+  });
   final dynamic task;
   final VoidCallback? refetch;
-
-  TaskDialog({this.task, this.refetch});
-
   @override
-  _TaskDialogState createState() => _TaskDialogState();
+  State<TaskDialog> createState() => _TaskDialogState();
 }
 
 class _TaskDialogState extends State<TaskDialog> {
