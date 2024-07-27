@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:todo_app/graphql/mutations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/bloc/task/task_bloc.dart';
+import 'package:todo_app/bloc/task/task_event.dart';
+import 'package:todo_app/models/task.dart';
 
 class TaskDialog extends StatefulWidget {
   const TaskDialog({
     super.key,
     this.task,
-    this.refetch,
   });
-  final dynamic task;
-  final VoidCallback? refetch;
+  final Task? task;
   @override
   State<TaskDialog> createState() => _TaskDialogState();
 }
@@ -22,10 +22,10 @@ class _TaskDialogState extends State<TaskDialog> {
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.task?['title'] ?? '');
+    _titleController = TextEditingController(text: widget.task?.title ?? '');
     _descriptionController =
-        TextEditingController(text: widget.task?['description'] ?? '');
-    _completed = widget.task?['completed'] ?? false;
+        TextEditingController(text: widget.task?.description ?? '');
+    _completed = widget.task?.completed ?? false;
   }
 
   @override
@@ -62,38 +62,23 @@ class _TaskDialogState extends State<TaskDialog> {
           },
           child: const Text('Cancel'),
         ),
-        Mutation(
-          options: MutationOptions(
-            document: widget.task == null
-                ? gql(createTaskMutation)
-                : gql(updateTaskMutation),
-            onCompleted: (dynamic resultData) {
-              if (widget.refetch != null) {
-                widget.refetch!();
-              }
-            },
-          ),
-          builder: (RunMutation runMutation, QueryResult? result) {
-            return TextButton(
-              onPressed: () {
-                if (widget.task == null) {
-                  runMutation({
-                    'title': _titleController.text,
-                    'description': _descriptionController.text,
-                  });
-                } else {
-                  runMutation({
-                    'id': widget.task['id'],
-                    'title': _titleController.text,
-                    'description': _descriptionController.text,
-                    'completed': _completed,
-                  });
-                }
-                Navigator.of(context).pop();
-              },
-              child: Text(widget.task == null ? 'Create' : 'Update'),
-            );
+        TextButton(
+          onPressed: () {
+            if (widget.task == null) {
+              context.read<TaskBloc>().add(TaskCreate(
+                  title: _titleController.text.trim(),
+                  description: _descriptionController.text.trim()));
+            } else {
+              context.read<TaskBloc>().add(TaskUpdate(
+                  id: widget.task!.id,
+                  title: _titleController.text.trim(),
+                  description: _descriptionController.text.trim(),
+                  completed: _completed));
+            }
+
+            Navigator.of(context).pop();
           },
+          child: Text(widget.task == null ? 'Create' : 'Update'),
         ),
       ],
     );
