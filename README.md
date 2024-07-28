@@ -1,6 +1,6 @@
 # Todo App
 
-A full-stack Todo application with a backend implemented using Apollo GraphQL and a frontend developed in Flutter. This app allows users to create, update, and view tasks.
+A full-stack Todo application with a backend implemented using Nodejs Apollo GraphQL and a frontend developed in Flutter. This app allows users to create, update, and view tasks.
 
 ## Project Structure
 
@@ -20,19 +20,19 @@ cd todo_app_graphql
 
 ## Backend
 
-**Navigate to the backend directory:**
+**1.Navigate to the backend directory:**
 
 ```bash
 cd todo_backend
 ```
 
-**Install dependencies:**
+**2.Install dependencies:**
 
 ```bash
 npm i
 ```
 
-**Start the backend server:**
+**3.Start the backend server:**
 
 ```bash
 npm start
@@ -40,20 +40,32 @@ npm start
 
 ## Frontend
 
-**Navigate to the frontend directory**
+**1.Navigate to the frontend directory**
 
 ```bash
 cd todo_app
 ```
 
-**Get Flutter dependencies:**
+**2.Get Flutter dependencies:**
 
 ```bash
 flutter pub get
 ```
 
-**Run the Flutter application:**
+**3.Run the Flutter application:**
 
 ```bash
 flutter run
 ```
+
+## Features
+
+- Create new tasks.
+- Update existing tasks.
+- View a list of all tasks.
+- Mark tasks as completed or incomplete.
+
+## Technologies Used
+
+- **Backend**: Node.js, Apollo Server, MongoDB.
+- **Frontend**: Flutter, GraphQL, Bloc
